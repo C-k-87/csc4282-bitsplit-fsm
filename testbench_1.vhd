@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+
 entity tb_fsm is
 -- empty
 end entity;
@@ -41,33 +42,33 @@ begin
     end process;
 
     -- Stimulus
-    stim : process
-    begin
-        -- Apply reset
-        rst <= '1';
-        sw  <= "00001";
-        btn <= '0';
-        wait for 20 ns;
+      stim : process
+      begin
+          -- Apply reset
+          rst <= '1';
+          wait for 20 ns;
+          rst <= '0';
 
-        rst <= '0';         --  Release reset
-        wait for 20 ns;
+          -- First character
+          sw <= "00001";
+          btn <= '1';
+          wait for 10 ns;
+          btn <= '0';
+          wait for 30 ns;
 
-        -- First evaluate
-        btn <= '1';
-        wait for 20 ns;     --  full clock
-        btn <= '0';
-        wait for 40 ns;
+          -- Second character
+          sw <= "00010";
+          btn <= '1';
+          wait for 10 ns;
+          btn <= '0';
+          wait for 30 ns;
 
-        -- Second input
-        sw <= "00010";
-        wait for 20 ns;     -- allow stable input
+          -- End simulation
+          wait for 50 ns;
+          assert false report "Simulation Finished" severity note;
+          wait;
 
-        btn <= '1';
-        wait for 20 ns;     --  full clock
-        btn <= '0';
-        wait for 40 ns;
+      end process;
 
-        wait;
-    end process;
 
 end architecture;
